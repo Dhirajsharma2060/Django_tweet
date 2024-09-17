@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+Dhiraj Tweet
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Header with Conditional Text -->
+    <h1 class="text-center text-white display-4"> Welcome to Django Tweets </h1>
+    
+    <h2 class="text-center mt-4">
+        {% if form.instance.pk %} 
+            Edit Tweet 
+        {% else %} 
+            Create Tweet 
+        {% endif %}
+    </h2>
+
+    <!-- Form Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4 border-0">
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    {{ form.as_p }} <!-- Use form rendering with Bootstrap -->
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-warning btn-lg shadow-sm" type="submit">
+                            <i class="fas fa-check-circle"></i> Submit
+                        </button>
+                        <a href="{% url 'tweet_list' %}" class="btn btn-secondary btn-lg shadow-sm">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

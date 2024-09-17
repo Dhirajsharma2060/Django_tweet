@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+Dhiraj Tweets
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white display-4"> Welcome to Django Tweets </h1>
+    <div class="text-center mt-3">
+        <a class="btn btn-lg btn-primary shadow-sm" href="{% url 'tweet_create' %}">
+            <i class="fas fa-plus-circle"></i> Create a Tweet
+        </a> 
+    </div>
+
+    <div class="row mt-5 g-4 justify-content-center" id="tweetContainer">
+        {% for tweet in tweets %}
+        <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
+            <div class="card h-100 shadow-lg border-0">
+                <img src="{{ tweet.photo.url }}" class="card-img-top img-fluid rounded" alt="{{ tweet.text }}">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ tweet.user.username }}</h5>
+                    <p class="card-text">{{ tweet.text }}</p>
+                    <div class="d-flex justify-content-between mt-4">
+                        <!-- Check if the current logged-in user is the owner of the tweet -->
+                        {% if tweet.user == request.user %}
+                        <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

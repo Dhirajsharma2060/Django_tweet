@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}
+    Search Results
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white display-4">Search Results for "{{ query }}"</h1>
+    <div class="row mt-5 g-4 justify-content-center" id="tweetContainer">
+        {% if tweets %}
+        {% for tweet in tweets %}
+        <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
+            <div class="card h-100 shadow-lg border-0">
+                <img src="{{ tweet.photo.url }}" class="card-img-top img-fluid rounded" alt="{{ tweet.text }}">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ tweet.user.username }}</h5>
+                    <p class="card-text">{{ tweet.text }}</p>
+                    {% if tweet.user == request.user %}
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5 class="text-center text-white">No tweets found matching your query.</h5>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
